@@ -1,23 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import Mensaje from "./components/mensaje";
+import "./App.css";
+import { useState } from "react";
 
 function App() {
+  const [items, setItems] = useState([
+    {
+      id: 0,
+      title: "mi primera nota",
+      text: "# hola a todos",
+      pinned: true,
+      created: Date.now(),
+    },
+  ]);
+
+  function handleClick() {
+    const note = {
+      id: 1,
+      title: "",
+      text: "# segunda nota",
+      pinned: false,
+      created: Date.now(),
+    };
+
+    setItems([...items, note]);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App container">
+      <div className="panel">
+        <div className="menu">
+          <input className="search" placeholder="search..." />
+          <button className="btn" onClick={() => handleClick()}>
+            + Nueva nota
+          </button>
+        </div>
+        <div className="list">
+          {items.map((item, i) => {
+            return (
+              <div key={item.id} className="note">
+                
+                <div> {item.title === '' ? '[Sin titulo]' : item.title}</div>
+
+                <div> 
+                  <button className="pinButton">{item.pinned? 'Pinned' : 'Pin'}</button>
+                </div>
+               
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="editor"></div>
+      <div className="preview"></div>
     </div>
   );
 }
