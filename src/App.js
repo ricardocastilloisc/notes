@@ -1,6 +1,10 @@
 import logo from "./logo.svg";
 import Mensaje from "./components/mensaje";
 import "./App.css";
+import Panel from "./components/panel";
+import Menu from "./components/menu";
+import List from "./components/list";
+
 import { useState } from "react";
 
 function App() {
@@ -28,19 +32,16 @@ function App() {
 
   return (
     <div className="App container">
-      <div className="panel">
-        <div className="menu">
-          <input className="search" placeholder="search..." />
-          <button className="btn" onClick={() => handleClick()}>
-            + Nueva nota
-          </button>
-        </div>
-        <div className="list">
+
+     
+      <Panel>
+        <Menu></Menu>
+        <List className="list">
           {items.map((item, i) => {
             return (
               <div key={item.id} className="note">
                 
-                <div> {item.title === '' ? '[Sin titulo]' : item.title}</div>
+                <div> {item.title === '' ? '[Sin titulo]' : item.title.substring(0,20)}</div>
 
                 <div> 
                   <button className="pinButton">{item.pinned? 'Pinned' : 'Pin'}</button>
@@ -49,10 +50,19 @@ function App() {
               </div>
             );
           })}
+        </List>
+      </Panel>
+
+      <div className="editor">
+        <div>
+          <input  className="title" />
+        </div>
+        <div className="editor-textarea">
+
+          <textarea className="content"></textarea>
+
         </div>
       </div>
-
-      <div className="editor"></div>
       <div className="preview"></div>
     </div>
   );
