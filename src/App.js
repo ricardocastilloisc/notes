@@ -4,6 +4,9 @@ import "./App.css";
 import Panel from "./components/panel";
 import Menu from "./components/menu";
 import List from "./components/list";
+import Item from "./components/item";
+import Editor from "./components/editor";
+import Preview from "./components/preview";
 
 import { useState } from "react";
 
@@ -32,38 +35,19 @@ function App() {
 
   return (
     <div className="App container">
-
-     
       <Panel>
         <Menu></Menu>
         <List className="list">
           {items.map((item, i) => {
-            return (
-              <div key={item.id} className="note">
-                
-                <div> {item.title === '' ? '[Sin titulo]' : item.title.substring(0,20)}</div>
-
-                <div> 
-                  <button className="pinButton">{item.pinned? 'Pinned' : 'Pin'}</button>
-                </div>
-               
-              </div>
-            );
+            return <Item item={item} key={item.id} />;
           })}
         </List>
       </Panel>
 
-      <div className="editor">
-        <div>
-          <input  className="title" />
-        </div>
-        <div className="editor-textarea">
-
-          <textarea className="content"></textarea>
-
-        </div>
-      </div>
-      <div className="preview"></div>
+      <>
+        <Editor />
+        <Preview />
+      </>
     </div>
   );
 }
