@@ -7,25 +7,20 @@ import List from "./components/list";
 import Item from "./components/item";
 import Editor from "./components/editor";
 import Preview from "./components/preview";
+import uuid from "react-uuid";
 
 import { useState } from "react";
 
 function App() {
-  const [items, setItems] = useState([
-    {
-      id: 0,
-      title: "mi primera nota",
-      text: "# hola a todos",
-      pinned: true,
-      created: Date.now(),
-    },
-  ]);
+  const [items, setItems] = useState([]);
+  const [copyItems, setCopyItems] = useState([]);
+  const [actualIndex, setActualIndex] = useState(-1);
 
-  function handleClick() {
+  function handleNew() {
     const note = {
-      id: 1,
+      id: uuid(),
       title: "",
-      text: "# segunda nota",
+      text: "",
       pinned: false,
       created: Date.now(),
     };
@@ -33,13 +28,31 @@ function App() {
     setItems([...items, note]);
   }
 
+  function handlePinned() {}
+  function handleSeletedNote(item, e) {
+    if (!e.target.classList.contains("note")) return;
+
+    const index = items.findIndex((x) => x === item);
+
+    setActualIndex(index);
+  }
+
   return (
     <div className="App container">
       <Panel>
-        <Menu></Menu>
+        <Menu onNew={handleNew}></Menu>
         <List className="list">
           {items.map((item, i) => {
-            return <Item item={item} key={item.id} />;
+            return (
+              <Item
+                item={item}
+                key={item.id}
+                index={i}
+                onHandlePinned={handlePinned}
+                onHandleSeletedNote={handleSeletedNote}
+                actualIndex={actualIndex}
+              />
+            );
           })}
         </List>
       </Panel>
